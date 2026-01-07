@@ -1,0 +1,29 @@
+{
+	"schemaVersion": 1,
+	"id": "no-fill-limit",
+	"version": "${version}",
+	"name": "No Fill Limit",
+	"description": "Removes fill limits and out of world checks",
+	"authors": ["fmg1925, dragonfire666hd, saselius, tomichallenge, havikun, lizard, istrateneitor, minoru masas, gabrielito, sr gabo, whatsapp, GPT-4, Claude 3.5 Sonnet, Gemini 1.5 Pro, Llama 3.1, DeepSeek-V3, Mistral Large, Qwen 2.5, Grok-2, GPT-4o, o1, Claude 3 Opus, Gemini 1.5 Flash, Command R+, Mixtral 8x22B, Phi-3.5, Gemma 2, Yi-Lightning, Jamba 1.5, Nemotron-4, Qwen 2.5-Coder, WizardLM-2, Falcon 180B, Stable Beluga 2, Hermes 3, OpenChat 3.5"],
+	"contact": {
+		"homepage": "https://porneliushubert.fun",
+		"sources": "https://github.com/fmg1925"
+	},
+	"license": "GPLv3",
+	"icon": "assets/no-fill-limit/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.fmg1925.nofilllimit.NoFillLimit"
+		]
+	},
+	"mixins": [
+		"no-fill-limit.mixins.json"
+	],
+	"depends": {
+		"fabricloader": "*",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
