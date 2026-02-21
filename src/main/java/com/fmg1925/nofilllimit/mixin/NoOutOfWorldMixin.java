@@ -1,25 +1,30 @@
 package com.fmg1925.nofilllimit.mixin;
 
 import com.mojang.brigadier.context.CommandContext;
-import net.minecraft.command.argument.BlockPosArgumentType;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.util.math.BlockPos;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static net.minecraft.command.argument.BlockPosArgumentType.getBlockPos;
-
-@Mixin(BlockPosArgumentType.class)
+@Mixin(BlockPosArgument.class)
 public class NoOutOfWorldMixin {
-    @Inject(method = "getLoadedBlockPos", at = @At("HEAD"), cancellable = true)
-    private static void bypassLoadedCheck(CommandContext<ServerCommandSource> context, String name, CallbackInfoReturnable<BlockPos> cir) {
-        cir.setReturnValue(getBlockPos(context, name));
+    @Shadow
+    public static BlockPos getBlockPos(CommandContext<CommandSourceStack> context, String name) throws CommandSyntaxException {
+        throw new AssertionError();
     }
 
-    @Inject(method = "getValidBlockPos", at = @At("HEAD"), cancellable = true)
-    private static void bypassWorldCheck(CommandContext<ServerCommandSource> context, String name, CallbackInfoReturnable<BlockPos> cir) {
+    @Inject(
+            method = "getLoadedBlockPos(Lcom/mojang/brigadier/context/CommandContext;Lnet/minecraft/server/level/ServerLevel;Ljava/lang/String;)Lnet/minecraft/core/BlockPos;",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    private static void bypassWorldBounds(CommandContext<CommandSourceStack> context, ServerLevel level, String name, CallbackInfoReturnable<BlockPos> cir) throws CommandSyntaxException {
         cir.setReturnValue(getBlockPos(context, name));
     }
 }
